@@ -1,7 +1,11 @@
-// const {addNotesHandler, getAllNoteHandler, getNoteHandler, updateNoteHandler,deleteNoteHandler} = require('./handler');
+const {store} = require('./handler');
 
 const routes = [{
     method: 'GET', path: '/', handler: () => ('gororo'),
+}, {
+    method: 'POST',
+    path: '/books',
+    handler: store
 }/*, {
     method: 'GET', path: '/about', handler: () => ('aboot'),
 }, {
@@ -20,15 +24,6 @@ const routes = [{
     method: 'DELETE',
     path: '/notes/{id}',
     handler: deleteNoteHandler,
-}, {
-    method: 'POST',
-    path: '/notes',
-    handler: addNotesHandler,
-    options: {
-        cors: {
-            origin: ['*'],
-        },
-    },
-}*/];
+}, */];
 
 module.exports = routes;
