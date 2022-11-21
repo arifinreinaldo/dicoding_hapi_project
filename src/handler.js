@@ -4,10 +4,15 @@ const books = require('./books');
 const {nanoid} = require("nanoid");
 
 const index = (request, rtn) => {
-    let {reading, finished} = request.query;
+    let {reading, finished,name} = request.query;
     let readingValue = reading == 1;
     let finishValue = finished == 1;
-    let mapBooks = books.filter((book) => book.finished === finishValue).filter((book) => book.reading === readingValue).map((value, index1) => {
+
+    let mapBooks = books
+        // .filter((book) => book.name.includes(name))
+        .filter((book) => book.finished === finishValue)
+        .filter((book) => book.reading === readingValue)
+        .map((value, index1) => {
         return {
             id: value.id,
             name: value.name,
