@@ -4,7 +4,10 @@ const books = require('./books');
 const {nanoid} = require("nanoid");
 
 const index = (request, rtn) => {
-    let mapBooks = books.map((value, index1) => {
+    let {reading, finished} = request.query;
+    let readingValue = reading == 1;
+    let finishValue = finished == 1;
+    let mapBooks = books.filter((book) => book.finished === finishValue).filter((book) => book.reading === readingValue).map((value, index1) => {
         return {
             id: value.id,
             name: value.name,
@@ -99,6 +102,29 @@ const update = (request, rtn) => {
     return response;
 
 };
+
+const deleteBook = (request, rtn) => {
+    let {id} = request.params;
+    const index = books.find((book) => book.id === id);
+    if (index === undefined) {
+        const response = rtn.response({
+            status: 'fail',
+            message: 'Buku gagal dihapus. Id tidak ditemukan'
+        });
+        response.code(404);
+        return response;
+    }
+    books.splice(index, 1);
+    const response = rtn.response({
+        status: 'success',
+        message: 'Buku berhasil dihapus',
+        data: {
+            books,
+        }
+    });
+    response.code(200);
+    return response;
+};
 const store = (request, rtn) => {
     const {
         name,
@@ -166,4 +192,4 @@ const store = (request, rtn) => {
     response.code(201);
     return response;
 };
-module.exports = {store, index, get, update};
+module.exports = {store, index, get, update, deleteBook};
